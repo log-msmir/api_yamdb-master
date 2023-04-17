@@ -1,0 +1,1277 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /api/v1/titles/{title_id}/reviews/{review_id}/comments/{comment_id}/:
+    get:
+      operationId: retrieveComment
+      description: ''
+      parameters:
+      - name: title_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: review_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: comment_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: string
+                    readOnly: true
+                  text:
+                    type: string
+                  author:
+                    type: string
+                    readOnly: true
+                  pub_date:
+                    type: string
+                    readOnly: true
+                required:
+                - text
+          description: ''
+    patch:
+      operationId: updateComment
+      description: ''
+      parameters:
+      - name: title_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: review_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: comment_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id001
+              properties:
+                text:
+                  type: string
+          application/x-www-form-urlencoded:
+            schema: *id001
+          multipart/form-data:
+            schema: *id001
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: string
+                    readOnly: true
+                  text:
+                    type: string
+                  author:
+                    type: string
+                    readOnly: true
+                  pub_date:
+                    type: string
+                    readOnly: true
+                required:
+                - text
+          description: ''
+    delete:
+      operationId: destroyComment
+      description: ''
+      parameters:
+      - name: title_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: review_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: comment_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+  /api/v1/titles/{title_id}/reviews/{review_id}/comments/:
+    get:
+      operationId: listComments
+      description: ''
+      parameters:
+      - name: title_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: review_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                  previous:
+                    type: string
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          type: string
+                          readOnly: true
+                        text:
+                          type: string
+                        author:
+                          type: string
+                          readOnly: true
+                        pub_date:
+                          type: string
+                          readOnly: true
+                      required:
+                      - text
+          description: ''
+    post:
+      operationId: createComment
+      description: ''
+      parameters:
+      - name: title_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: review_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id002
+              properties:
+                text:
+                  type: string
+              required:
+              - text
+          application/x-www-form-urlencoded:
+            schema: *id002
+          multipart/form-data:
+            schema: *id002
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: string
+                    readOnly: true
+                  text:
+                    type: string
+                  author:
+                    type: string
+                    readOnly: true
+                  pub_date:
+                    type: string
+                    readOnly: true
+                required:
+                - text
+          description: ''
+  /api/v1/titles/{title_id}/reviews/{review_id}/:
+    get:
+      operationId: retrieveReview
+      description: ''
+      parameters:
+      - name: title_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: review_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  text:
+                    type: string
+                  author:
+                    type: string
+                    readOnly: true
+                  score:
+                    type: integer
+                  pub_date:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                required:
+                - text
+                - score
+          description: ''
+    patch:
+      operationId: updateReview
+      description: ''
+      parameters:
+      - name: title_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: review_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id003
+              properties:
+                text:
+                  type: string
+                score:
+                  type: integer
+          application/x-www-form-urlencoded:
+            schema: *id003
+          multipart/form-data:
+            schema: *id003
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  text:
+                    type: string
+                  author:
+                    type: string
+                    readOnly: true
+                  score:
+                    type: integer
+                  pub_date:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                required:
+                - text
+                - score
+          description: ''
+    delete:
+      operationId: destroyReview
+      description: ''
+      parameters:
+      - name: title_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: review_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+  /api/v1/titles/{title_id}/reviews/:
+    get:
+      operationId: listReviews
+      description: ''
+      parameters:
+      - name: title_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                  previous:
+                    type: string
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          type: integer
+                          readOnly: true
+                        text:
+                          type: string
+                        author:
+                          type: string
+                          readOnly: true
+                        score:
+                          type: integer
+                        pub_date:
+                          type: string
+                          format: date-time
+                          readOnly: true
+                      required:
+                      - text
+                      - score
+          description: ''
+    post:
+      operationId: createReview
+      description: ''
+      parameters:
+      - name: title_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id004
+              properties:
+                text:
+                  type: string
+                score:
+                  type: integer
+              required:
+              - text
+              - score
+          application/x-www-form-urlencoded:
+            schema: *id004
+          multipart/form-data:
+            schema: *id004
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  text:
+                    type: string
+                  author:
+                    type: string
+                    readOnly: true
+                  score:
+                    type: integer
+                  pub_date:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                required:
+                - text
+                - score
+          description: ''
+  /api/v1/users/me/:
+    get:
+      operationId: user_retrieveUser
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  first_name:
+                    type: string
+                    nullable: true
+                    maxLength: 50
+                  last_name:
+                    type: string
+                    nullable: true
+                    maxLength: 50
+                  username:
+                    type: string
+                    maxLength: 50
+                  bio:
+                    type: string
+                    nullable: true
+                  email:
+                    type: string
+                    format: email
+                    maxLength: 254
+                  role:
+                    type: string
+                    maxLength: 50
+                required:
+                - username
+                - email
+          description: ''
+    patch:
+      operationId: user_updateUser
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: &id005
+              properties:
+                first_name:
+                  type: string
+                  nullable: true
+                  maxLength: 50
+                last_name:
+                  type: string
+                  nullable: true
+                  maxLength: 50
+                username:
+                  type: string
+                  maxLength: 50
+                bio:
+                  type: string
+                  nullable: true
+                email:
+                  type: string
+                  format: email
+                  maxLength: 254
+                role:
+                  type: string
+                  maxLength: 50
+          application/x-www-form-urlencoded:
+            schema: *id005
+          multipart/form-data:
+            schema: *id005
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  first_name:
+                    type: string
+                    nullable: true
+                    maxLength: 50
+                  last_name:
+                    type: string
+                    nullable: true
+                    maxLength: 50
+                  username:
+                    type: string
+                    maxLength: 50
+                  bio:
+                    type: string
+                    nullable: true
+                  email:
+                    type: string
+                    format: email
+                    maxLength: 254
+                  role:
+                    type: string
+                    maxLength: 50
+                required:
+                - username
+                - email
+          description: ''
+  /api/v1/users/{username}/:
+    get:
+      operationId: admin_retrieveUser
+      description: ''
+      parameters:
+      - name: username
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  first_name:
+                    type: string
+                    nullable: true
+                    maxLength: 50
+                  last_name:
+                    type: string
+                    nullable: true
+                    maxLength: 50
+                  username:
+                    type: string
+                    maxLength: 50
+                  bio:
+                    type: string
+                    nullable: true
+                  email:
+                    type: string
+                    format: email
+                    maxLength: 254
+                  role:
+                    type: string
+                    maxLength: 50
+                required:
+                - username
+                - email
+          description: ''
+    patch:
+      operationId: admin_updateUser
+      description: ''
+      parameters:
+      - name: username
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id006
+              properties:
+                first_name:
+                  type: string
+                  nullable: true
+                  maxLength: 50
+                last_name:
+                  type: string
+                  nullable: true
+                  maxLength: 50
+                username:
+                  type: string
+                  maxLength: 50
+                bio:
+                  type: string
+                  nullable: true
+                email:
+                  type: string
+                  format: email
+                  maxLength: 254
+                role:
+                  type: string
+                  maxLength: 50
+          application/x-www-form-urlencoded:
+            schema: *id006
+          multipart/form-data:
+            schema: *id006
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  first_name:
+                    type: string
+                    nullable: true
+                    maxLength: 50
+                  last_name:
+                    type: string
+                    nullable: true
+                    maxLength: 50
+                  username:
+                    type: string
+                    maxLength: 50
+                  bio:
+                    type: string
+                    nullable: true
+                  email:
+                    type: string
+                    format: email
+                    maxLength: 254
+                  role:
+                    type: string
+                    maxLength: 50
+                required:
+                - username
+                - email
+          description: ''
+    delete:
+      operationId: destroyUser
+      description: ''
+      parameters:
+      - name: username
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+  /api/v1/users/:
+    get:
+      operationId: listUsers
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                  previous:
+                    type: string
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      properties:
+                        first_name:
+                          type: string
+                          nullable: true
+                          maxLength: 50
+                        last_name:
+                          type: string
+                          nullable: true
+                          maxLength: 50
+                        username:
+                          type: string
+                          maxLength: 50
+                        bio:
+                          type: string
+                          nullable: true
+                        email:
+                          type: string
+                          format: email
+                          maxLength: 254
+                        role:
+                          type: string
+                          maxLength: 50
+                      required:
+                      - username
+                      - email
+          description: ''
+    post:
+      operationId: createUser
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: &id007
+              properties:
+                first_name:
+                  type: string
+                  nullable: true
+                  maxLength: 50
+                last_name:
+                  type: string
+                  nullable: true
+                  maxLength: 50
+                username:
+                  type: string
+                  maxLength: 50
+                bio:
+                  type: string
+                  nullable: true
+                email:
+                  type: string
+                  format: email
+                  maxLength: 254
+                role:
+                  type: string
+                  maxLength: 50
+              required:
+              - username
+              - email
+          application/x-www-form-urlencoded:
+            schema: *id007
+          multipart/form-data:
+            schema: *id007
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  first_name:
+                    type: string
+                    nullable: true
+                    maxLength: 50
+                  last_name:
+                    type: string
+                    nullable: true
+                    maxLength: 50
+                  username:
+                    type: string
+                    maxLength: 50
+                  bio:
+                    type: string
+                    nullable: true
+                  email:
+                    type: string
+                    format: email
+                    maxLength: 254
+                  role:
+                    type: string
+                    maxLength: 50
+                required:
+                - username
+                - email
+          description: ''
+  /api/v1/categories/:
+    get:
+      operationId: listCategorys
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                  previous:
+                    type: string
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      properties:
+                        name:
+                          type: string
+                          maxLength: 255
+                        slug:
+                          type: string
+                          maxLength: 50
+                          pattern: ^[-a-zA-Z0-9_]+$
+                      required:
+                      - name
+                      - slug
+          description: ''
+    post:
+      operationId: createCategory
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: &id008
+              properties:
+                name:
+                  type: string
+                  maxLength: 255
+                slug:
+                  type: string
+                  maxLength: 50
+                  pattern: ^[-a-zA-Z0-9_]+$
+              required:
+              - name
+              - slug
+          application/x-www-form-urlencoded:
+            schema: *id008
+          multipart/form-data:
+            schema: *id008
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  name:
+                    type: string
+                    maxLength: 255
+                  slug:
+                    type: string
+                    maxLength: 50
+                    pattern: ^[-a-zA-Z0-9_]+$
+                required:
+                - name
+                - slug
+          description: ''
+  /api/v1/genres/:
+    get:
+      operationId: listGenres
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                  previous:
+                    type: string
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      properties:
+                        name:
+                          type: string
+                          maxLength: 255
+                        slug:
+                          type: string
+                          maxLength: 50
+                          pattern: ^[-a-zA-Z0-9_]+$
+                      required:
+                      - name
+                      - slug
+          description: ''
+    post:
+      operationId: createGenre
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: &id009
+              properties:
+                name:
+                  type: string
+                  maxLength: 255
+                slug:
+                  type: string
+                  maxLength: 50
+                  pattern: ^[-a-zA-Z0-9_]+$
+              required:
+              - name
+              - slug
+          application/x-www-form-urlencoded:
+            schema: *id009
+          multipart/form-data:
+            schema: *id009
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  name:
+                    type: string
+                    maxLength: 255
+                  slug:
+                    type: string
+                    maxLength: 50
+                    pattern: ^[-a-zA-Z0-9_]+$
+                required:
+                - name
+                - slug
+          description: ''
+  /api/v1/titles/{title_id}/:
+    get:
+      operationId: retrieveTitle
+      description: ''
+      parameters:
+      - name: title_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  name:
+                    type: string
+                    maxLength: 255
+                  year:
+                    type: integer
+                    nullable: true
+                  rating:
+                    type: string
+                    readOnly: true
+                  description:
+                    type: string
+                    nullable: true
+                  genre:
+                    type: string
+                    readOnly: true
+                  category:
+                    type: string
+                    readOnly: true
+                required:
+                - name
+                - year
+          description: ''
+    patch:
+      operationId: updateTitle
+      description: ''
+      parameters:
+      - name: title_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id010
+              properties:
+                name:
+                  type: string
+                  maxLength: 255
+                year:
+                  type: integer
+                  nullable: true
+                description:
+                  type: string
+                  nullable: true
+          application/x-www-form-urlencoded:
+            schema: *id010
+          multipart/form-data:
+            schema: *id010
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  name:
+                    type: string
+                    maxLength: 255
+                  year:
+                    type: integer
+                    nullable: true
+                  rating:
+                    type: string
+                    readOnly: true
+                  description:
+                    type: string
+                    nullable: true
+                  genre:
+                    type: string
+                    readOnly: true
+                  category:
+                    type: string
+                    readOnly: true
+                required:
+                - name
+                - year
+          description: ''
+    delete:
+      operationId: destroyTitle
+      description: ''
+      parameters:
+      - name: title_id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+  /api/v1/titles/:
+    get:
+      operationId: listTitles
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                  previous:
+                    type: string
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          type: integer
+                          readOnly: true
+                        name:
+                          type: string
+                          maxLength: 255
+                        year:
+                          type: integer
+                          nullable: true
+                        rating:
+                          type: string
+                          readOnly: true
+                        description:
+                          type: string
+                          nullable: true
+                        genre:
+                          type: string
+                          readOnly: true
+                        category:
+                          type: string
+                          readOnly: true
+                      required:
+                      - name
+                      - year
+          description: ''
+    post:
+      operationId: createTitle
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: &id011
+              properties:
+                name:
+                  type: string
+                  maxLength: 255
+                year:
+                  type: integer
+                  nullable: true
+                description:
+                  type: string
+                  nullable: true
+              required:
+              - name
+              - year
+          application/x-www-form-urlencoded:
+            schema: *id011
+          multipart/form-data:
+            schema: *id011
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  name:
+                    type: string
+                    maxLength: 255
+                  year:
+                    type: integer
+                    nullable: true
+                  rating:
+                    type: string
+                    readOnly: true
+                  description:
+                    type: string
+                    nullable: true
+                  genre:
+                    type: string
+                    readOnly: true
+                  category:
+                    type: string
+                    readOnly: true
+                required:
+                - name
+                - year
+          description: ''
+  /api/v1/auth/token/:
+    post:
+      operationId: CreateGetJWTToken
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+  /api/v1/auth/email/:
+    post:
+      operationId: CreateGetConfirmationCode
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema: {}
+          description: ''
+  /api/v1/categories/{slug}/:
+    delete:
+      operationId: destroyCategory
+      description: ''
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+  /api/v1/genres/{slug}/:
+    delete:
+      operationId: destroyGenre
+      description: ''
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
