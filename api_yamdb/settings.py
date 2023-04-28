@@ -172,3 +172,5 @@ JWT_AUTH = {
     'JWT_VERIFY_EXPIRATION': False, #Не истекает
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 }
+
+#123
