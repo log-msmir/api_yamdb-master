@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
 from django.views.generic import TemplateView
+from django.conf.urls.static import static
 
 from rest_framework import permissions
 from rest_framework.schemas import get_schema_view as rest_schema_view
@@ -31,4 +33,4 @@ urlpatterns = [
     path('my-redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('schema/', rest_schema_view(title='Base schema')),
     path('schema1/', schema_view.without_ui())
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

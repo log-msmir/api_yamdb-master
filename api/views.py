@@ -2,10 +2,9 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import get_object_or_404, get_list_or_404
 
-from rest_framework import generics, mixins
+from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.exceptions import ParseError
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
@@ -32,8 +31,7 @@ class TestAPIView(generics.RetrieveAPIView):
 
 @api_view(['GET'])
 def test(request):
-    return Response(str(request.stream))
-
+    return Response('FFF#3')
 
 @api_view(['GET'])
 def api_root(request, format=None):
