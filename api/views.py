@@ -58,13 +58,13 @@ class GetConfirmationCodeAPIView(APIView, ValidationMixin):
         user.set_password(confirmation_code)
         self.check_data(user)
         user.save()
-        
-            #return Response({'error': 'Email is already used'}, status=status.HTTP_400_BAD_REQUEST)
-        # send_mail(subject='YaMDB verify your email',
-        #         message=f'Confirmation code: {confirmation_code}',
-        #         from_email=settings.DEFAULT_FROM_EMAIL,
-        #         recipient_list=[user_email,])
-        #return Response({'OK': f'Confirmation code was send to {user_email} {confirmation_code}'})
+
+        """  return Response({'error': 'Email is already used'}, status=status.HTTP_400_BAD_REQUEST)
+         send_mail(subject='YaMDB verify your email',
+                 message=f'Confirmation code: {confirmation_code}',
+                 from_email=settings.DEFAULT_FROM_EMAIL,
+                 recipient_list=[user_email,])
+        return Response({'OK': f'Confirmation code was send to {user_email} {confirmation_code}'})"""
         """Для тестов закомментировать отправку email и респонс"""
         return Response({'confirmation_code':f'{confirmation_code}'})
 
@@ -152,8 +152,8 @@ class TitleViewSet(ModelViewSet):
 class GenreViewSet(FilterMixin, SlugDeleteMixin, ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
-    search_fields = ['name', 'slug']
     permission_classes = (GenrePermission,)
+    search_fields = ['name', 'slug']
 
 
 class CategoryViewSet(FilterMixin, SlugDeleteMixin, ModelViewSet):
