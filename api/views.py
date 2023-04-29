@@ -64,7 +64,8 @@ class GetConfirmationCodeAPIView(APIView, ValidationMixin):
                  message=f'Confirmation code: {confirmation_code}',
                  from_email=settings.DEFAULT_FROM_EMAIL,
                  recipient_list=[user_email,])
-        return Response({'OK': f'Confirmation code was send to {user_email} {confirmation_code}'})"""
+        return Response({'OK':
+        f'Confirmation code was send to {user_email} {confirmation_code}'})"""
         """Для тестов закомментировать отправку email и респонс"""
         return Response({'confirmation_code':f'{confirmation_code}'})
 
