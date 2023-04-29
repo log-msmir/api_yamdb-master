@@ -16,7 +16,6 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: 3.8
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
     - name: Install dependencies
       run: |
@@ -27,6 +26,8 @@ jobs:
     - name: Lint with flake8
       run: flake8 .
     - name: Test with pytest
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: pytest tests.py
   # для автоматической пересборки и обновления образа на DockerHub. Он должен выполниться только после успешного прохождения тестов.    
   build_and_push_to_docker_hub:
