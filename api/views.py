@@ -98,12 +98,12 @@ class TitleViewSet(ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter(request)
-        serializer = TitleSerializer(queryset, many=True, context={'request': request})
+        serializer = TitleSerializer(queryset, many=True, context={'request':request})
 
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
-        serializer = TitleSerializer(data=request.data, context={'request': request})
+        serializer = TitleSerializer(data=request.data, context={'request':request})
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
