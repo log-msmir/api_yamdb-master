@@ -12,7 +12,9 @@ from .mixins import ValidationMixin
 from .utils import generate_confirmation_code
 
 
-"""Тестовые классы"""
+"""  Тестовые классы  """
+
+
 class GenreListingField(serializers.RelatedField):
 
     def to_representation(self, value):
@@ -22,7 +24,9 @@ class GenreListingField(serializers.RelatedField):
         return Genre.objects.all()
 
 
-"""<<< The end >>>"""
+"""  <<< The end >>>  """
+
+
 class GenreSerializer(serializers.ModelSerializer):
 
     class Meta:
