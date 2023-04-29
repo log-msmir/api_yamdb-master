@@ -1,12 +1,9 @@
-from django.contrib.auth import get_user_model
 from django.db.models import Avg
-from django.shortcuts import get_list_or_404, get_object_or_404
-from django.core.exceptions import ValidationError
+from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 from django.conf import settings
 
 from rest_framework import serializers
-from rest_framework.response import Response
 from rest_framework.exceptions import ParseError
 from rest_framework.reverse import reverse
 
@@ -14,16 +11,20 @@ from .models import User, Title, Category, Comment, Genre, Review
 from .mixins import ValidationMixin
 from .utils import generate_confirmation_code
 
+
 """Тестовые классы"""
 class GenreListingField(serializers.RelatedField):
     def to_representation(self, value):
         return {'name': value.name, 'slug':value.slug}
-    
+
     def get_queryset(self):
         return Genre.objects.all()
-        
+
+
 """<<< The end >>>"""
 class GenreSerializer(serializers.ModelSerializer):
+    
+    
     class Meta:
         model = Genre
         fields = ('name', 'slug')

@@ -45,5 +45,3 @@ admin.site.register(Category)
 admin.site.register(Genre)
 admin.site.register(Review, ReviewAdmin)
 admin.site.register(Comment)
-
-

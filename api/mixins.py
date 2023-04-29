@@ -8,7 +8,7 @@ from rest_framework.exceptions import ParseError, NotFound
 class FilterMixin:
 
     def filter_queryset(self, queryset):
-    #TODO обработка ошибки при передаче параметра и 
+    #TODO обработка ошибки при передаче параметра и
     #TODO отсутствия search_fields >> has_attr
         query = self.request.query_params
         if query:
