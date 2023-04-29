@@ -37,7 +37,6 @@ services:
       - ./host.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 80:80 #Переадресовываем запросы на  8888 на 80й порт, app работает на 8000
-      - 443:443
     depends_on:
       - web
   # certbot: #SSL
