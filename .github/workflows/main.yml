@@ -21,9 +21,9 @@ jobs:
         uses: py-actions/flake8@v2
         with:
           ignore: "F401"
-          exclude: "src/setup.cfg"
+          exclude: "setup.cfg"
           max-line-length: "100"
-          path: "src"
+          #path: "src"
           plugins: "flake8-bugbear==22.1.11 flake8-black"
   #Выполнение тестов из test.py & проверка на pep8
   tests:
