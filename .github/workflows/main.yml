@@ -28,7 +28,7 @@ jobs:
     - name: Test with pytest
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      run: pytest tests.py
+      run: pytest api/tests.py
   # для автоматической пересборки и обновления образа на DockerHub. Он должен выполниться только после успешного прохождения тестов.    
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
