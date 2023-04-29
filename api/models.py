@@ -1,10 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 from .validators import role_validator, ascii_validator, score_validator
-
 
 
 class User(AbstractUser):
