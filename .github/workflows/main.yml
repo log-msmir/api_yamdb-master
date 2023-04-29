@@ -21,7 +21,7 @@ jobs:
         uses: py-actions/flake8@v2
         with:
           ignore: "F401"
-          exclude: "ignoreme.py"
+          exclude: "./ignoreme.py"
           max-line-length: "100"
   #Выполнение тестов из test.py & проверка на pep8
   tests:
