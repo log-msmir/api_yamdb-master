@@ -9,61 +9,47 @@ from .views import (TitleViewSet, GenreViewSet, CategoryViewSet,
 auth_token = GetJWTTokenAPIView.as_view()
 auth_email = GetConfirmationCodeAPIView.as_view()
 
-comment_detail = CommentViewSet.as_view({
-     'get': 'retrieve',
-     'patch': 'update',
-     'delete': 'destroy'},
-                                        )
+comment_detail = CommentViewSet.as_view({'get': 'retrieve',
+                                         'patch': 'update',
+                                         'delete': 'destroy'},)
 
-comment_list = CommentViewSet.as_view({
-     'get': 'list',
-     'post': 'create'},)
+comment_list = CommentViewSet.as_view({'get': 'list',
+                                       'post': 'create'},)
 
-review_detail = ReviewViewSet.as_view({
-     'get': 'retrieve',
-     'patch': 'update',
-     'delete': 'destroy'},)
+review_detail = ReviewViewSet.as_view({'get': 'retrieve',
+                                       'patch': 'update',
+                                       'delete': 'destroy'},)
 
-review_list = ReviewViewSet.as_view({
-     'get': 'list',
-     'post': 'create'},)
+review_list = ReviewViewSet.as_view({'get': 'list',
+                                     'post': 'create'},)
 
-user_info = UserViewSet.as_view({
-     'get': 'user_retrieve',
-     'patch': 'user_update'},)
+user_info = UserViewSet.as_view({'get': 'user_retrieve',
+                                 'patch': 'user_update'},)
 
-admin_detail = UserViewSet.as_view({
-     'get': 'admin_retrieve',
-     'delete': 'destroy',
-     'patch': 'admin_update'},)
+admin_detail = UserViewSet.as_view({'get': 'admin_retrieve',
+                                    'delete': 'destroy',
+                                    'patch': 'admin_update'},)
 
-user_list = UserViewSet.as_view({
-     'get': 'list',
-     'post': 'create'},)
+user_list = UserViewSet.as_view({'get': 'list',
+                                 'post': 'create'},)
 
-category_detail = CategoryViewSet.as_view({
-     'delete': 'destroy'},)
+category_detail = CategoryViewSet.as_view({'delete': 'destroy'},)
 
-category_list = CategoryViewSet.as_view({
-     'get': 'list',
-     'post': 'create'},)
+category_list = CategoryViewSet.as_view({'get': 'list',
+                                         'post': 'create'},)
 
-genre_detail = GenreViewSet.as_view({
-     'delete': 'destroy',
-     'get':'retrieve'},)
+genre_detail = GenreViewSet.as_view({'delete': 'destroy',
+                                     'get':'retrieve'},)
 
-genre_list = GenreViewSet.as_view({
-     'get':'list',
-     'post': 'create'},)
+genre_list = GenreViewSet.as_view({'get':'list',
+                                   'post': 'create'},)
 
-title_detail = TitleViewSet.as_view({
-     'get': 'retrieve',
-     'patch': 'update',
-     'delete': 'destroy'},)
+title_detail = TitleViewSet.as_view({'get': 'retrieve',
+                                     'patch': 'update',
+                                     'delete': 'destroy'},)
 
-title_list = TitleViewSet.as_view({
-     'get': 'list',
-     'post': 'create'},)
+title_list = TitleViewSet.as_view({'get': 'list',
+                                   'post': 'create'},)
 
 
 urlpatterns = [
