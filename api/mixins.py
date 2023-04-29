@@ -9,10 +9,11 @@ class FilterMixin:
 
     def filter_queryset(self, queryset):
     #TODO обработка ошибки при передаче параметра и 
-    # отсутствия search_fields >> has_attr
+    #TODO отсутствия search_fields >> has_attr
         query = self.request.query_params
-        if query: 
-            filter = {k+'__icontains':query.get(k) for k in query.keys() if k in self.search_fields}
+        if query:
+            filter = {k + '__icontains':query.get(k) for k in query.keys()
+                      if k in self.search_fields}
             if not filter:
                 raise NotFound(detail={'error': 'No data found'})
             filtering_queryset = queryset.filter(**filter)

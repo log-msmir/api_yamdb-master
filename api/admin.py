@@ -11,26 +11,33 @@ class UserAdmin(BaseUserAdmin):
     model = User
     list_display = ('username', 'email', 'role')
 
+
 UserAdmin.fieldsets += ('Custom fields set', {'fields': ('role', 'bio')}),
+
 
 class ReviewInLine(admin.TabularInline):
     model = Review
-    
+
+
 class GenreInLine(admin.TabularInline):
     model = GenreTitle
-    
+
+
 class CommentInLine(admin.TabularInline):
     model = Comment
+
 
 class TitleAdmin(admin.ModelAdmin):
     model = Title
     inlines = [ReviewInLine, GenreInLine]
     list_display = ('id', 'name', 'category')
 
+
 class ReviewAdmin(admin.ModelAdmin):
     model = Review
     inlines = [CommentInLine,]
     list_display = ('id', 'text', 'author')
+
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Title, TitleAdmin)
