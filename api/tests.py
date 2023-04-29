@@ -28,8 +28,8 @@ class ApiTest(APITestCase):
         self.title.genre.add(self.genre)
 
         self.registraton()
-    # Изменение инициализации получения токена           
-    def registraton(self):
+    
+    def registraton(self):#  Изменение инициализации получения токена
         client_user = APIClient()
         request_user = client_user.post(reverse('auth_email'),
                                         data={'email': self.user.email})
@@ -38,9 +38,8 @@ class ApiTest(APITestCase):
         self.assertIsNotNone(confirmation_code_user)
         request_user = client_user.post(reverse('auth_token'),
                                         data={'email': self.user.email,
-                                              'confirmation_code': confirmation_code_user })
+                                              'confirmation_code': confirmation_code_user})
         self.token_user = 'Bearer ' + request_user.data.get('token')
-
 
         client_moderator = APIClient()
         request_moderator = client_moderator.post(reverse('auth_email'),
@@ -49,8 +48,7 @@ class ApiTest(APITestCase):
         confirmation_code_moderator = request_moderator.data.get('confirmation_code')
         self.assertIsNotNone(confirmation_code_moderator)
         request_moderator = client_moderator.post(reverse('auth_token'),
-                                                  data={'email': self.moderator.email,
-                                                        'confirmation_code':confirmation_code_moderator})
+            data={'email': self.moderator.email, 'confirmation_code':confirmation_code_moderator})
         self.token_moderator = 'Bearer ' + request_moderator.data.get('token')
 
         client_admin = APIClient()
@@ -143,8 +141,8 @@ class ApiTest(APITestCase):
         """  DELETE DETAIL  """
         request = user.delete(reverse('title_detail', kwargs={'title_id':self.title.pk}))
         self.assertEqual(request.status_code, 403)
-     
-    def test_admin_title(self):#Образец
+
+    def test_admin_title(self):#  Образец
         user = APIClient()
         user.credentials(HTTP_AUTHORIZATION=self.token_admin)
         """  GET LIST  """
@@ -168,7 +166,8 @@ class ApiTest(APITestCase):
 
         """  PATCH DETAIL  """
         title_name = 'Тестирование PATCH'
-        request = user.patch(reverse('title_detail', kwargs={'title_id':title_id}),
+        request = user.patch(reverse('title_detail',
+                                     kwargs={'title_id':title_id}),
                                      data={'name': title_name})
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=title_name)
@@ -177,9 +176,9 @@ class ApiTest(APITestCase):
         request = user.delete(reverse('title_detail', kwargs={'title_id':title_id}))
         self.assertEqual(request.status_code, 204)
         request = user.get(reverse('title_detail', kwargs={'title_id':title_id}))
-        self.assertEqual(request.status_code, 404)  
+        self.assertEqual(request.status_code, 404)
     """  Genres  """
-    def test_admin_genre(self):#Образец
+    def test_admin_genre(self):#  Образец
         user = APIClient()
         user.credentials(HTTP_AUTHORIZATION=self.token_admin)
         """  Genre LIST  """
@@ -196,7 +195,7 @@ class ApiTest(APITestCase):
         self.assertContains(response=request, text=genre_slug)
 
         """  Genre DELETE  """
-        request = user.delete(reverse('genre_detail', kwargs={'slug': genre_slug}), 
+        request = user.delete(reverse('genre_detail', kwargs={'slug': genre_slug}),
                               data={'name': genre_name, 'slug': genre_slug})
         self.assertEqual(request.status_code, 204)
         request = user.get(reverse('genre_list'))
@@ -222,7 +221,7 @@ class ApiTest(APITestCase):
         self.assertContains(response=request, text=self.genre.slug)
 
         """  Genre DELETE  """
-        request = user.delete(reverse('genre_detail', kwargs={'slug': genre_slug}), 
+        request = user.delete(reverse('genre_detail', kwargs={'slug': genre_slug}),
                               data={'name': genre_name, 'slug': genre_slug})
         self.assertEqual(request.status_code, 403)
 
@@ -245,7 +244,7 @@ class ApiTest(APITestCase):
         self.assertContains(response=request, text=self.genre.slug)
 
         """  Genre DELETE  """
-        request = user.delete(reverse('genre_detail', kwargs={'slug': genre_slug}), 
+        request = user.delete(reverse('genre_detail', kwargs={'slug': genre_slug}),
                               data={'name': genre_name, 'slug': genre_slug})
         self.assertEqual(request.status_code, 403)
 
@@ -267,11 +266,11 @@ class ApiTest(APITestCase):
         self.assertContains(response=request, text=self.genre.slug)
 
         """  Genre DELETE  """
-        request = user.delete(reverse('genre_detail', kwargs={'slug': genre_slug}), 
+        request = user.delete(reverse('genre_detail', kwargs={'slug': genre_slug}),
                               data={'name': genre_name, 'slug': genre_slug})
-        self.assertEqual(request.status_code, 403)      
+        self.assertEqual(request.status_code, 403)
     """  Categories  """
-    def test_admin_category(self):#Образец
+    def test_admin_category(self):#  Образец
         user = APIClient()
         user.credentials(HTTP_AUTHORIZATION=self.token_admin)
         """  Category LIST  """
@@ -281,7 +280,8 @@ class ApiTest(APITestCase):
         """  Category POST  """
         category_name = 'Искусство'
         category_slug = 'art'
-        request = user.post(reverse('category_list'), data={'name': category_name, 'slug': category_slug})
+        request = user.post(reverse('category_list'),
+                            data={'name':category_name, 'slug':category_slug})
         self.assertEqual(request.status_code, 201)
         request = user.get(reverse('category_list'))
         self.assertContains(response=request, text=category_name)
@@ -304,7 +304,8 @@ class ApiTest(APITestCase):
         """  Category POST  """
         category_name = 'Искусство'
         category_slug = 'art'
-        request = user.post(reverse('category_list'), data={'name': category_name, 'slug': category_slug})
+        request = user.post(reverse('category_list'),
+                            data={'name': category_name, 'slug': category_slug})
         self.assertEqual(request.status_code, 403)
         request = user.get(reverse('category_list'))
         self.assertNotContains(response=request, text=category_name)
@@ -327,7 +328,8 @@ class ApiTest(APITestCase):
         """  Category POST  """
         category_name = 'Искусство'
         category_slug = 'art'
-        request = user.post(reverse('category_list'), data={'name': category_name, 'slug': category_slug})
+        request = user.post(reverse('category_list'),
+                            data={'name': category_name, 'slug': category_slug})
         self.assertEqual(request.status_code, 403)
         request = user.get(reverse('category_list'))
         self.assertNotContains(response=request, text=category_name)
@@ -349,7 +351,8 @@ class ApiTest(APITestCase):
         """  Category POST  """
         category_name = 'Искусство'
         category_slug = 'art'
-        request = user.post(reverse('category_list'), data={'name': category_name, 'slug': category_slug})
+        request = user.post(reverse('category_list'),
+                            data={'name': category_name, 'slug': category_slug})
         self.assertEqual(request.status_code, 403)
         request = user.get(reverse('category_list'))
         self.assertNotContains(response=request, text=category_name)
@@ -360,7 +363,7 @@ class ApiTest(APITestCase):
         self.assertEqual(request.status_code, 403)
         request = user.get(reverse('category_list'))
         self.assertContains(response=request, text=self.category.name)
-        self.assertContains(response=request, text=self.category.slug)   
+        self.assertContains(response=request, text=self.category.slug)
     """  Users  """
     def test_admin_users(self):
         user = APIClient()
@@ -387,7 +390,7 @@ class ApiTest(APITestCase):
         """  USERS ADMIN PATCH  """
         test_user_2 = {'username': 'test_user_patch', 'email': 'test_user_patch@gmail.com'}
         request = user.patch(reverse('admin_detail', kwargs={'username': test_user_1['username']}),
-                             data={'username': test_user_2['username'], 'email': test_user_2['email']})
+                    data={'username': test_user_2['username'], 'email': test_user_2['email']})
         self.assertEqual(request.status_code, 200)
         request = user.get(reverse('admin_detail', kwargs={'username': test_user_2['username']}))
         self.assertEqual(request.status_code, 200)
@@ -428,8 +431,9 @@ class ApiTest(APITestCase):
         request = user.get(reverse('admin_detail', kwargs={'username': self.admin.username}))
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN PATCH  """
-        request = user.patch(reverse('admin_detail', kwargs={'username': self.admin.username}),
-                           data=test_user_1)
+        request = user.patch(reverse('admin_detail',
+                                     kwargs={'username': self.admin.username}),
+                                     data=test_user_1)
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN DELETE  """
         request = user.delete(reverse('admin_detail', kwargs={'username': self.admin.username}))
@@ -459,8 +463,9 @@ class ApiTest(APITestCase):
         request = user.get(reverse('admin_detail', kwargs={'username': self.admin.username}))
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN PATCH  """
-        request = user.patch(reverse('admin_detail', kwargs={'username': self.admin.username}),
-                           data=test_user_1)
+        request = user.patch(reverse('admin_detail',
+                                     kwargs={'username': self.admin.username}),
+                                     data=test_user_1)
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN DELETE  """
         request = user.delete(reverse('admin_detail', kwargs={'username': self.admin.username}))
@@ -489,8 +494,9 @@ class ApiTest(APITestCase):
         request = user.get(reverse('admin_detail', kwargs={'username': self.admin.username}))
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN PATCH  """
-        request = user.patch(reverse('admin_detail', kwargs={'username': self.admin.username}),
-                           data=test_user_1)
+        request = user.patch(reverse('admin_detail',
+                                     kwargs={'username': self.admin.username}),
+                                     data=test_user_1)
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN DELETE  """
         request = user.delete(reverse('admin_detail', kwargs={'username': self.admin.username}))
@@ -567,10 +573,11 @@ class ApiTest(APITestCase):
         self.assertContains(response=request, text=review['text'])
         self.assertContains(response=request, text=review['score'])
         """  Review detail  """
-        request = user.patch(reverse('review_detail',kwargs={'title_id':1, 'review_id': 1}),
-                             data=review_patch)
+        request = user.patch(reverse('review_detail',
+                                     kwargs={'title_id':1, 'review_id': 1}),
+                                     data=review_patch)
         self.assertEqual(request.status_code, 200)
-        
+
         request = user.get(reverse('review_detail', kwargs={'title_id':1, 'review_id': 1}))
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=review_patch['text'])

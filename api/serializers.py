@@ -34,7 +34,7 @@ class GenreSerializer(serializers.ModelSerializer):
         fields = ('name', 'slug')
         extra_kwargs = {'name': {'validators':[]}}
 
-    
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -49,9 +49,8 @@ class TitleSerializer(serializers.ModelSerializer, ValidationMixin):
     #genre = GenreListingField(many=True, required=False)
     url = serializers.HyperlinkedIdentityField(view_name='title_detail',
                                                lookup_field='pk',
-                                               lookup_url_kwarg ='title_id')
+                                               lookup_url_kwarg='title_id')
     test_url = serializers.SerializerMethodField()
-
 
     class Meta:
         model = Title
@@ -73,7 +72,7 @@ class TitleSerializer(serializers.ModelSerializer, ValidationMixin):
         category['slug'] = obj.category.slug
         return category
 
-    def get_rating(self, obj): # obj = Title qs
+    def get_rating(self, obj): #  obj = Title qs
         rating = obj.reviews.all().aggregate(Avg('score'))['score__avg']
         """  Return a dict:
         "rating": {
@@ -176,7 +175,7 @@ class UserSerializer(serializers.ModelSerializer, ValidationMixin):
 
 class ReviewSerializer(serializers.ModelSerializer, ValidationMixin):
     author = serializers.ReadOnlyField(source='author.username')
-    
+
     class Meta:
         model = Review
         fields = ('id', 'text', 'author', 'score', 'pub_date')
