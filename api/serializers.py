@@ -72,7 +72,7 @@ class TitleSerializer(serializers.ModelSerializer, ValidationMixin):
         category['slug'] = obj.category.slug
         return category
 
-    def get_rating(self, obj): #  obj = Title qs
+    def get_rating(self, obj):  # obj = Title qs
         rating = obj.reviews.all().aggregate(Avg('score'))['score__avg']
         """  Return a dict:
         "rating": {

@@ -28,8 +28,8 @@ class ApiTest(APITestCase):
         self.title.genre.add(self.genre)
 
         self.registraton()
-    
-    def registraton(self):#  Изменение инициализации получения токена
+
+    def registraton(self):  # Изменение инициализации получения токена
         client_user = APIClient()
         request_user = client_user.post(reverse('auth_email'),
                                         data={'email': self.user.email})
@@ -48,7 +48,8 @@ class ApiTest(APITestCase):
         confirmation_code_moderator = request_moderator.data.get('confirmation_code')
         self.assertIsNotNone(confirmation_code_moderator)
         request_moderator = client_moderator.post(reverse('auth_token'),
-            data={'email': self.moderator.email, 'confirmation_code':confirmation_code_moderator})
+                            data={'email': self.moderator.email,
+                                  'confirmation_code':confirmation_code_moderator})
         self.token_moderator = 'Bearer ' + request_moderator.data.get('token')
 
         client_admin = APIClient()
@@ -142,7 +143,7 @@ class ApiTest(APITestCase):
         request = user.delete(reverse('title_detail', kwargs={'title_id':self.title.pk}))
         self.assertEqual(request.status_code, 403)
 
-    def test_admin_title(self):#  Образец
+    def test_admin_title(self):  # Образец
         user = APIClient()
         user.credentials(HTTP_AUTHORIZATION=self.token_admin)
         """  GET LIST  """
@@ -167,8 +168,8 @@ class ApiTest(APITestCase):
         """  PATCH DETAIL  """
         title_name = 'Тестирование PATCH'
         request = user.patch(reverse('title_detail',
-                                     kwargs={'title_id':title_id}),
-                                     data={'name': title_name})
+                                            kwargs={'title_id':title_id}),
+                                            data={'name': title_name})
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=title_name)
 
@@ -178,7 +179,7 @@ class ApiTest(APITestCase):
         request = user.get(reverse('title_detail', kwargs={'title_id':title_id}))
         self.assertEqual(request.status_code, 404)
     """  Genres  """
-    def test_admin_genre(self):#  Образец
+    def test_admin_genre(self):  # Образец
         user = APIClient()
         user.credentials(HTTP_AUTHORIZATION=self.token_admin)
         """  Genre LIST  """
@@ -270,7 +271,7 @@ class ApiTest(APITestCase):
                               data={'name': genre_name, 'slug': genre_slug})
         self.assertEqual(request.status_code, 403)
     """  Categories  """
-    def test_admin_category(self):#  Образец
+    def test_admin_category(self):  # Образец
         user = APIClient()
         user.credentials(HTTP_AUTHORIZATION=self.token_admin)
         """  Category LIST  """
@@ -389,8 +390,10 @@ class ApiTest(APITestCase):
 
         """  USERS ADMIN PATCH  """
         test_user_2 = {'username': 'test_user_patch', 'email': 'test_user_patch@gmail.com'}
-        request = user.patch(reverse('admin_detail', kwargs={'username': test_user_1['username']}),
-                    data={'username': test_user_2['username'], 'email': test_user_2['email']})
+        request = user.patch(reverse('admin_detail',
+                                     kwargs={'username': test_user_1['username']}),
+                                     data={'username': test_user_2['username'], 
+                                           'email': test_user_2['email']})
         self.assertEqual(request.status_code, 200)
         request = user.get(reverse('admin_detail', kwargs={'username': test_user_2['username']}))
         self.assertEqual(request.status_code, 200)
@@ -432,8 +435,8 @@ class ApiTest(APITestCase):
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN PATCH  """
         request = user.patch(reverse('admin_detail',
-                                     kwargs={'username': self.admin.username}),
-                                     data=test_user_1)
+                                        kwargs={'username': self.admin.username}),
+                                        data=test_user_1)
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN DELETE  """
         request = user.delete(reverse('admin_detail', kwargs={'username': self.admin.username}))
@@ -464,8 +467,8 @@ class ApiTest(APITestCase):
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN PATCH  """
         request = user.patch(reverse('admin_detail',
-                                     kwargs={'username': self.admin.username}),
-                                     data=test_user_1)
+                                        kwargs={'username': self.admin.username}),
+                                        data=test_user_1)
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN DELETE  """
         request = user.delete(reverse('admin_detail', kwargs={'username': self.admin.username}))
@@ -495,8 +498,8 @@ class ApiTest(APITestCase):
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN PATCH  """
         request = user.patch(reverse('admin_detail',
-                                     kwargs={'username': self.admin.username}),
-                                     data=test_user_1)
+                                        kwargs={'username': self.admin.username}),
+                                        data=test_user_1)
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN DELETE  """
         request = user.delete(reverse('admin_detail', kwargs={'username': self.admin.username}))
@@ -574,15 +577,15 @@ class ApiTest(APITestCase):
         self.assertContains(response=request, text=review['score'])
         """  Review detail  """
         request = user.patch(reverse('review_detail',
-                                     kwargs={'title_id':1, 'review_id': 1}),
-                                     data=review_patch)
+                                        kwargs={'title_id':1, 'review_id': 1}),
+                                        data=review_patch)
         self.assertEqual(request.status_code, 200)
 
         request = user.get(reverse('review_detail', kwargs={'title_id':1, 'review_id': 1}))
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=review_patch['text'])
         self.assertContains(response=request, text=review_patch['score'])
-        
+
         request = user.delete(reverse('review_detail', kwargs={'title_id':1, 'review_id': 1}))
         self.assertEqual(request.status_code, 204)
         request = user.get(reverse('review_detail', kwargs={'title_id':1, 'review_id': 1}))
@@ -614,11 +617,12 @@ class ApiTest(APITestCase):
 
         request = user.delete(reverse('review_detail', kwargs={'title_id':1, 'review_id': 1}))
         self.assertEqual(request.status_code, 403)
-    """  Comments  """    
+    """  Comments  """
     def test_admin_comment(self):
         user = APIClient()
         user.credentials(HTTP_AUTHORIZATION=self.token_admin)
-        review = Review.objects.create(text='Ревьюшка', score=10, title=self.title, author=self.admin)
+        review = Review.objects.create(text='Ревьюшка', 
+                                       score=10, title=self.title, author=self.admin)
         comment = {'text': 'Комментарий'}
         comment_patch = {'text': 'Комментарий PATCH'}
         """  Comment list  """
@@ -626,152 +630,192 @@ class ApiTest(APITestCase):
                                                             'review_id': review.pk}), data=comment)
         comment_id = request.data.get('id')
         self.assertEqual(request.status_code, 201)
-        request = user.get(reverse('comment_list', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk}))
+        request = user.get(reverse('comment_list',
+                                   kwargs={'title_id':self.title.pk,
+                                           'review_id': review.pk}))
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=comment['text'])
         """  Comment detail  """
-        request = user.get(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}))
+        request = user.get(reverse('comment_detail',
+                                   kwargs={'title_id':self.title.pk,
+                                           'review_id': review.pk,
+                                           'comment_id': comment_id}))
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=comment['text'])
 
-        request = user.patch(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}), data=comment_patch)
+        request = user.patch(reverse('comment_detail',
+                                     kwargs={'title_id':self.title.pk,
+                                             'review_id': review.pk,
+                                             'comment_id': comment_id}), data=comment_patch)
         self.assertEqual(request.status_code, 200)
-        request = user.get(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}))
+        request = user.get(reverse('comment_detail',
+                                   kwargs={'title_id':self.title.pk,
+                                           'review_id': review.pk,
+                                           'comment_id': comment_id}))
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=comment_patch['text'])
 
-        request = user.delete(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}))
+        request = user.delete(reverse('comment_detail',
+                                      kwargs={'title_id':self.title.pk,
+                                              'review_id': review.pk,
+                                              'comment_id': comment_id}))
         self.assertEqual(request.status_code, 204)
 
-        request = user.get(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}))
+        request = user.get(reverse('comment_detail',
+                                   kwargs={'title_id':self.title.pk,
+                                           'review_id': review.pk,
+                                           'comment_id': comment_id}))
         self.assertEqual(request.status_code, 404)
 
     def test_user_comment(self):
         user = APIClient()
         user.credentials(HTTP_AUTHORIZATION=self.token_user)
-        review = Review.objects.create(text='Ревьюшка', score=10, title=self.title, author=self.admin)
+        review = Review.objects.create(text='Ревьюшка',
+                                       score=10,
+                                       title=self.title,
+                                       author=self.admin)
         comment = {'text': 'Комментарий'}
         comment_patch = {'text': 'Комментарий PATCH'}
         """  Comment list  """
-        request = user.post(reverse('comment_list', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk}), data=comment)
+        request = user.post(reverse('comment_list',
+                                    kwargs={'title_id':self.title.pk,
+                                            'review_id': review.pk}), data=comment)
         comment_id = request.data.get('id')
         self.assertEqual(request.status_code, 201)
-        request = user.get(reverse('comment_list', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk}))
+        request = user.get(reverse('comment_list',
+                                   kwargs={'title_id':self.title.pk,
+                                           'review_id': review.pk}))
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=comment['text'])
         """  Comment detail  """
-        request = user.get(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}))
+        request = user.get(reverse('comment_detail',
+                                   kwargs={'title_id':self.title.pk,
+                                           'review_id': review.pk,
+                                           'comment_id': comment_id}))
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=comment['text'])
 
-        request = user.patch(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}), data=comment_patch)
+        request = user.patch(reverse('comment_detail',
+                                     kwargs={'title_id':self.title.pk,
+                                             'review_id': review.pk,
+                                             'comment_id': comment_id}),
+                             data=comment_patch)
         self.assertEqual(request.status_code, 200)
-        request = user.get(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}))
+        request = user.get(reverse('comment_detail',
+                                   kwargs={'title_id':self.title.pk,
+                                           'review_id': review.pk,
+                                           'comment_id': comment_id}))
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=comment_patch['text'])
         
-        request = user.delete(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}))
+        request = user.delete(reverse('comment_detail',
+                                      kwargs={'title_id':self.title.pk,
+                                              'review_id': review.pk,
+                                              'comment_id': comment_id}))
         self.assertEqual(request.status_code, 204)
 
-        request = user.get(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}))
+        request = user.get(reverse('comment_detail',
+                                   kwargs={'title_id':self.title.pk,
+                                           'review_id': review.pk,
+                                           'comment_id': comment_id}))
         self.assertEqual(request.status_code, 404)
 
     def test_moderator_comment(self):
         user = APIClient()
         user.credentials(HTTP_AUTHORIZATION=self.token_moderator)
-        review = Review.objects.create(text='Ревьюшка', score=10, title=self.title, author=self.admin)
+        review = Review.objects.create(text='Ревьюшка',
+                                       score=10,
+                                       title=self.title,
+                                       author=self.admin)
         comment = {'text': 'Комментарий'}
         comment_patch = {'text': 'Комментарий PATCH'}
         """  Comment list  """
-        request = user.post(reverse('comment_list', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk}), data=comment)
+        request = user.post(reverse('comment_list',
+                                    kwargs={'title_id':self.title.pk,
+                                            'review_id': review.pk}), data=comment)
         comment_id = request.data.get('id')
         self.assertEqual(request.status_code, 201)
-        request = user.get(reverse('comment_list', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk}))
+        request = user.get(reverse('comment_list',
+                                   kwargs={'title_id':self.title.pk,
+                                           'review_id': review.pk}))
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=comment['text'])
         """  Comment detail  """
-        request = user.get(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}))
+        request = user.get(reverse('comment_detail',
+                                   kwargs={'title_id':self.title.pk,
+                                           'review_id': review.pk,
+                                           'comment_id': comment_id}))
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=comment['text'])
 
-        request = user.patch(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}), data=comment_patch)
+        request = user.patch(reverse('comment_detail',
+                                     kwargs={'title_id':self.title.pk,
+                                             'review_id': review.pk,
+                                             'comment_id': comment_id}),
+                             data=comment_patch)
         self.assertEqual(request.status_code, 200)
-        request = user.get(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}))
+        request = user.get(reverse('comment_detail',
+                                   kwargs={'title_id':self.title.pk,
+                                           'review_id': review.pk,
+                                           'comment_id': comment_id}))
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=comment_patch['text'])
 
-        request = user.delete(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}))
+        request = user.delete(reverse('comment_detail',
+                                      kwargs={'title_id':self.title.pk,
+                                              'review_id': review.pk,
+                                              'comment_id': comment_id}))
         self.assertEqual(request.status_code, 204)
 
-        request = user.get(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}))
+        request = user.get(reverse('comment_detail',
+                                   kwargs={'title_id':self.title.pk,
+                                           'review_id': review.pk,
+                                           'comment_id': comment_id}))
         self.assertEqual(request.status_code, 404)
 
     def test_anon_comment(self):
         user = APIClient()
         admin_user = APIClient()
         admin_user.credentials(HTTP_AUTHORIZATION=self.token_admin)
-        review = Review.objects.create(text='Ревьюшка', score=10, title=self.title, author=self.admin)
+        review = Review.objects.create(text='Ревьюшка',
+                                       score=10,
+                                       title=self.title,
+                                       author=self.admin)
         comment = {'text': 'Комментарий'}
         comment_patch = {'text': 'Комментарий PATCH'}
         """  Comment list  """
-        request = user.post(reverse('comment_list', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk}), data=comment)
+        request = user.post(reverse('comment_list',
+                                    kwargs={'title_id':self.title.pk,
+                                            'review_id': review.pk}),
+                            data=comment)
         self.assertEqual(request.status_code, 403)
-        request = admin_user.post(reverse('comment_list', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk}), data=comment)
+        request = admin_user.post(reverse('comment_list',
+                                          kwargs={'title_id':self.title.pk,
+                                                  'review_id': review.pk}),
+                                  data=comment)
         comment_id = request.data.get('id')
-        request = user.get(reverse('comment_list', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk}))
+        request = user.get(reverse('comment_list',
+                                   kwargs={'title_id':self.title.pk,
+                                           'review_id': review.pk}))
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=comment['text'])
         """  Comment detail  """
-        request = user.get(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}))
+        request = user.get(reverse('comment_detail',
+                                   kwargs={'title_id':self.title.pk,
+                                           'review_id': review.pk,
+                                           'comment_id': comment_id}))
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=comment['text'])
         
-        request = user.patch(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}), data=comment_patch)
+        request = user.patch(reverse('comment_detail',
+                                     kwargs={'title_id':self.title.pk,
+                                             'review_id': review.pk,
+                                             'comment_id': comment_id}),
+                             data=comment_patch)
         self.assertEqual(request.status_code, 403)
 
-        request = user.delete(reverse('comment_detail', kwargs={'title_id':self.title.pk,
-                                                            'review_id': review.pk,
-                                                            'comment_id': comment_id}))
+        request = user.delete(reverse('comment_detail',
+                                      kwargs={'title_id':self.title.pk,
+                                              'review_id': review.pk,
+                                              'comment_id': comment_id}))
         self.assertEqual(request.status_code, 403)
