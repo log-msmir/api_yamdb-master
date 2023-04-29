@@ -141,8 +141,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = (os.path.join(BASE_DIR, 'static/'))
 
 
-
-AUTH_USER_MODEL = 'api.User' # new
+AUTH_USER_MODEL = 'api.User'  # new
 
 
 REST_FRAMEWORK = {
@@ -151,8 +150,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'DEFAULT_AUTHENTICATION_CLASSES': (
-    'rest_framework.authentication.SessionAuthentication',
-    'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
   ),
     'PAGE_SIZE': 30
 }
@@ -169,8 +168,6 @@ DEFAULT_FROM_EMAIL = os.getenv('DJANGO_DEFAULT_FROM_EMAIL')
 #JWT_AUTH
 JWT_AUTH = {
     'JWT_VERIFY': True,
-    'JWT_VERIFY_EXPIRATION': False, #Не истекает
+    'JWT_VERIFY_EXPIRATION': False,  # Не истекает
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 }
-
-#123

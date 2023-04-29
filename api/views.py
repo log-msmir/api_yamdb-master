@@ -41,7 +41,7 @@ def api_root(request, format=None):
 
 class GetConfirmationCodeAPIView(APIView, ValidationMixin):
     #  Подумать над защитой от спама
-    permission_classes = (AllowAny,)   
+    permission_classes = (AllowAny,)
 
     def post(self, request):
         user_email = request.data.get('email', None)
@@ -59,12 +59,10 @@ class GetConfirmationCodeAPIView(APIView, ValidationMixin):
         self.check_data(user)
         user.save()
             #return Response({'error': 'Email is already used'}, status=status.HTTP_400_BAD_REQUEST)
-        
         # send_mail(subject='YaMDB verify your email',
         #         message=f'Confirmation code: {confirmation_code}',
         #         from_email=settings.DEFAULT_FROM_EMAIL,
         #         recipient_list=[user_email,])
-
         #return Response({'OK': f'Confirmation code was send to {user_email} {confirmation_code}'})
         """Для тестов закомментировать отправку email и респонс"""
         return Response({'confirmation_code':f'{confirmation_code}'})
@@ -88,7 +86,7 @@ class GetJWTTokenAPIView(APIView):
                 token = jwt_encode_handler(payload)
                 return Response({'token': token})
             else:
-                return Response({'error': 'Wrong confirmation code'})   
+                return Response({'error': 'Wrong confirmation code'})
 
 
 class TitleViewSet(ModelViewSet):
@@ -118,7 +116,7 @@ class TitleViewSet(ModelViewSet):
 
     def update(self, request, title_id, *args, **kwargs):
         instance = get_object_or_404(Title, pk=title_id)
-        self.check_object_permissions(self.request, instance)     
+        self.check_object_permissions(self.request, instance)
         serializer = TitleSerializer(instance=instance, data=request.data, partial=True,
                                      context={'request':request})
         serializer.is_valid(raise_exception=True)
@@ -136,10 +134,10 @@ class TitleViewSet(ModelViewSet):
 
     def filter(self, request):
         search_fields = {
-                'category__slug__iexact': request.GET.get('category', None),
-                'genre__slug__iexact': request.GET.get('genre', None),
-                'name__icontains': request.GET.get('name', None),
-                'year': request.GET.get('year', None),
+            'category__slug__iexact': request.GET.get('category', None),
+            'genre__slug__iexact': request.GET.get('genre', None),
+            'name__icontains': request.GET.get('name', None),
+            'year': request.GET.get('year', None),
             }
 
         query = {k:v for k,v in search_fields.items() if v}
@@ -238,7 +236,7 @@ class ReviewViewSet(ModelViewSet):
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
+
     def retrieve(self, request, title_id, review_id, *args, **kwargs):
         review = get_object_or_404(Review, title=title_id, pk=review_id)
         serializer = ReviewSerializer(review)
@@ -259,7 +257,8 @@ class ReviewViewSet(ModelViewSet):
         self.check_object_permissions(self.request, review)
         review.delete()
 
-        return Response({'OK': f'Review # {review_id} was deleted'}, status=status.HTTP_204_NO_CONTENT)
+        return Response({'OK': f'Review # {review_id} was deleted'},
+                        status=status.HTTP_204_NO_CONTENT)
 
 
 class CommentViewSet(ModelViewSet):
@@ -286,13 +285,15 @@ class CommentViewSet(ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, title_id, review_id, comment_id, *args, **kwargs):
-        comment = get_object_or_404(Comment, pk=comment_id, review=review_id, review__title=title_id)
+        comment = get_object_or_404(Comment,
+                                    pk=comment_id, review=review_id, review__title=title_id)
         serializer = CommentSerializer(comment)
 
         return Response(serializer.data)
 
     def update(self, request, title_id, review_id, comment_id, *args, **kwargs):
-        instance = get_object_or_404(Comment, pk=comment_id, review=review_id, review__title=title_id)
+        instance = get_object_or_404(Comment,
+                                     pk=comment_id, review=review_id, review__title=title_id)
         self.check_object_permissions(self.request, instance)
         serializer = CommentSerializer(instance=instance, data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -301,7 +302,8 @@ class CommentViewSet(ModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def destroy(self, request, title_id, review_id, comment_id, *args, **kwargs):
-        comment = get_object_or_404(Comment, pk=comment_id, review=review_id, review__title=title_id)
+        comment = get_object_or_404(Comment,
+                                    pk=comment_id, review=review_id, review__title=title_id)
         self.check_object_permissions(self.request, comment)
         comment.delete()
 
