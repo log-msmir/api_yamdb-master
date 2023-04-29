@@ -47,9 +47,9 @@ class ApiTest(APITestCase):
         self.assertEqual(request_moderator.status_code, 200)
         confirmation_code_moderator = request_moderator.data.get('confirmation_code')
         self.assertIsNotNone(confirmation_code_moderator)
-        request_moderator = client_moderator.post(reverse('auth_token'),
-                            data={'email': self.moderator.email,
-                                  'confirmation_code':confirmation_code_moderator})
+        request_moderator = client_moderator.post(
+            reverse('auth_token'),data={'email': self.moderator.email,
+                                        'confirmation_code':confirmation_code_moderator})
         self.token_moderator = 'Bearer ' + request_moderator.data.get('token')
 
         client_admin = APIClient()
@@ -168,8 +168,8 @@ class ApiTest(APITestCase):
         """  PATCH DETAIL  """
         title_name = 'Тестирование PATCH'
         request = user.patch(reverse('title_detail',
-                                            kwargs={'title_id':title_id}),
-                                            data={'name': title_name})
+                                     kwargs={'title_id':title_id}),
+                             data={'name': title_name})
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=title_name)
 
@@ -392,8 +392,8 @@ class ApiTest(APITestCase):
         test_user_2 = {'username': 'test_user_patch', 'email': 'test_user_patch@gmail.com'}
         request = user.patch(reverse('admin_detail',
                                      kwargs={'username': test_user_1['username']}),
-                                     data={'username': test_user_2['username'], 
-                                           'email': test_user_2['email']})
+                             data={'username': test_user_2['username'],
+                                   'email': test_user_2['email']})
         self.assertEqual(request.status_code, 200)
         request = user.get(reverse('admin_detail', kwargs={'username': test_user_2['username']}))
         self.assertEqual(request.status_code, 200)
@@ -435,8 +435,8 @@ class ApiTest(APITestCase):
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN PATCH  """
         request = user.patch(reverse('admin_detail',
-                                        kwargs={'username': self.admin.username}),
-                                        data=test_user_1)
+                                     kwargs={'username': self.admin.username}),
+                             data=test_user_1)
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN DELETE  """
         request = user.delete(reverse('admin_detail', kwargs={'username': self.admin.username}))
@@ -467,8 +467,8 @@ class ApiTest(APITestCase):
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN PATCH  """
         request = user.patch(reverse('admin_detail',
-                                        kwargs={'username': self.admin.username}),
-                                        data=test_user_1)
+                                     kwargs={'username': self.admin.username}),
+                             data=test_user_1)
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN DELETE  """
         request = user.delete(reverse('admin_detail', kwargs={'username': self.admin.username}))
@@ -498,8 +498,8 @@ class ApiTest(APITestCase):
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN PATCH  """
         request = user.patch(reverse('admin_detail',
-                                        kwargs={'username': self.admin.username}),
-                                        data=test_user_1)
+                                     kwargs={'username': self.admin.username}),
+                             data=test_user_1)
         self.assertEqual(request.status_code, 403)
         """  USERS ADMIN DELETE  """
         request = user.delete(reverse('admin_detail', kwargs={'username': self.admin.username}))
@@ -577,8 +577,8 @@ class ApiTest(APITestCase):
         self.assertContains(response=request, text=review['score'])
         """  Review detail  """
         request = user.patch(reverse('review_detail',
-                                        kwargs={'title_id':1, 'review_id': 1}),
-                                        data=review_patch)
+                                     kwargs={'title_id':1, 'review_id': 1}),
+                             data=review_patch)
         self.assertEqual(request.status_code, 200)
 
         request = user.get(reverse('review_detail', kwargs={'title_id':1, 'review_id': 1}))
@@ -621,8 +621,10 @@ class ApiTest(APITestCase):
     def test_admin_comment(self):
         user = APIClient()
         user.credentials(HTTP_AUTHORIZATION=self.token_admin)
-        review = Review.objects.create(text='Ревьюшка', 
-                                       score=10, title=self.title, author=self.admin)
+        review = Review.objects.create(text='Ревьюшка',
+                                       score=10,
+                                       title=self.title,
+                                       author=self.admin)
         comment = {'text': 'Комментарий'}
         comment_patch = {'text': 'Комментарий PATCH'}
         """  Comment list  """
@@ -707,7 +709,7 @@ class ApiTest(APITestCase):
                                            'comment_id': comment_id}))
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=comment_patch['text'])
-        
+
         request = user.delete(reverse('comment_detail',
                                       kwargs={'title_id':self.title.pk,
                                               'review_id': review.pk,
@@ -806,7 +808,7 @@ class ApiTest(APITestCase):
                                            'comment_id': comment_id}))
         self.assertEqual(request.status_code, 200)
         self.assertContains(response=request, text=comment['text'])
-        
+
         request = user.patch(reverse('comment_detail',
                                      kwargs={'title_id':self.title.pk,
                                              'review_id': review.pk,
