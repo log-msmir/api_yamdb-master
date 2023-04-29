@@ -14,6 +14,7 @@ from .utils import generate_confirmation_code
 
 """Тестовые классы"""
 class GenreListingField(serializers.RelatedField):
+
     def to_representation(self, value):
         return {'name': value.name, 'slug':value.slug}
 
@@ -23,8 +24,7 @@ class GenreListingField(serializers.RelatedField):
 
 """<<< The end >>>"""
 class GenreSerializer(serializers.ModelSerializer):
-    
-    
+
     class Meta:
         model = Genre
         fields = ('name', 'slug')
