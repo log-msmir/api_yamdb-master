@@ -29,13 +29,13 @@ class TestAPIView(generics.RetrieveAPIView):
 
 @api_view(['GET'])
 def test(request):
-    return Response('FFF#3')
+    return Response(reverse('title_list'))
 
 
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
-        'titles': reverse('titles', request=request, format=format)
+        'titles': reverse('title_list', request=request, format=format)
     })
 
 
