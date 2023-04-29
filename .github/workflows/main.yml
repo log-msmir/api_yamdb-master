@@ -16,7 +16,7 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: 3.8
-        secret_key: ${{ secrets.SECRET_KEY }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
     - name: Install dependencies
       run: |
