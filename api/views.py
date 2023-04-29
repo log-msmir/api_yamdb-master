@@ -58,6 +58,7 @@ class GetConfirmationCodeAPIView(APIView, ValidationMixin):
         user.set_password(confirmation_code)
         self.check_data(user)
         user.save()
+        
             #return Response({'error': 'Email is already used'}, status=status.HTTP_400_BAD_REQUEST)
         # send_mail(subject='YaMDB verify your email',
         #         message=f'Confirmation code: {confirmation_code}',
@@ -137,8 +138,7 @@ class TitleViewSet(ModelViewSet):
             'category__slug__iexact': request.GET.get('category', None),
             'genre__slug__iexact': request.GET.get('genre', None),
             'name__icontains': request.GET.get('name', None),
-            'year': request.GET.get('year', None),
-            }
+            'year': request.GET.get('year', None),}
 
         query = {k:v for k,v in search_fields.items() if v}
         if query:
