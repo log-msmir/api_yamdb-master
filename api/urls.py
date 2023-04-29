@@ -12,7 +12,8 @@ auth_email = GetConfirmationCodeAPIView.as_view()
 comment_detail = CommentViewSet.as_view({
      'get': 'retrieve',
      'patch': 'update',
-     'delete': 'destroy'},)
+     'delete': 'destroy'},
+                                        )
 
 comment_list = CommentViewSet.as_view({
      'get': 'list',
