@@ -25,6 +25,9 @@ jobs:
 
     - name: Lint with flake8
       run: flake8 .
+      env:
+        DB_ENGINE: ${{ secrets.DB_ENGINE }}
+        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
     - name: Test with pytest
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
