@@ -25,12 +25,11 @@ jobs:
 
     - name: Lint with flake8
       run: flake8 .
-      env:
-        DB_ENGINE: ${{ secrets.DB_ENGINE }}
-        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
     - name: Test with pytest
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        DB_ENGINE: ${{ secrets.DB_ENGINE }}
+        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
       run: pytest api/tests.py
   # для автоматической пересборки и обновления образа на DockerHub. Он должен выполниться только после успешного прохождения тестов.    
   build_and_push_to_docker_hub:
