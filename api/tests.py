@@ -154,7 +154,8 @@ class ApiTest(APITestCase):
         title_name = 'Тестируемый заголовок'
         genre_default = 'Без жанра'
         category_default = 'Без категории'
-        request = user.post(reverse('title_list'), data={'name': title_name})
+        request = user.post(reverse('title_list'),
+                            data={'name': title_name, 'category':category_default})
         self.assertEqual(request.status_code, 201)
         title_id = request.data['id']
 
