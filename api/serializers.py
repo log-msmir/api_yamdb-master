@@ -44,7 +44,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class TitleSerializer(serializers.ModelSerializer, ValidationMixin):
     genre = serializers.SerializerMethodField(read_only=False)
-    category = serializers.SerializerMethodField(read_only=False, required=False)
+    category = serializers.SerializerMethodField()
     rating = serializers.SerializerMethodField()
     #genre = GenreListingField(many=True, required=False)
     url = serializers.HyperlinkedIdentityField(view_name='title_detail',
