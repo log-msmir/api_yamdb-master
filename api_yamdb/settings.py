@@ -91,13 +91,8 @@ DATABASES = {'default':{
     'USER': os.getenv('POSTGRES_USER'),
     'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
     'HOST': os.getenv('DB_HOST'),
-    'HOST': 'localhost',
     'PORT': os.getenv('DB_PORT'),
 }}
-
-# if 'test' in sys.argv or 'test\_coverage' in sys.argv:
-#     DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
-#     DATABASES['default']['NAME'] = ':memory:'
 
 
 # Password validation

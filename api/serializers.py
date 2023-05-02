@@ -94,17 +94,21 @@ class TitleSerializer(serializers.ModelSerializer, ValidationMixin):
 
         cat_filter = payload.get('category', None)
         genres = payload.get('genre', None)
-        if cat_filter:
+        if cat_filter is not None:
             category = get_object_or_404(Category, slug__iexact=cat_filter)
             title = Title(category=category, **validated_data)
             title.save()
-        else:
-            title = Title(**validated_data)
+        if cat_filter is None:
+            cat_filter = Category.objects.get_or_create(name='Без категории', slug='no-category')[0]
+            title = Title(**validated_data, category=cat_filter)
             title.save()
-        if genres:
+        if genres is not None:
             for genre in genres:
                 genre_obj = get_object_or_404(Genre, slug__iexact=genre)
                 title.genre.add(genre_obj)
+        elif genres is None:
+            genre_obj = Genre.objects.get_or_create(name='Без жанра', slug='no-genre')[0]
+            title.genre.add(genre_obj)
 
         return title
 
